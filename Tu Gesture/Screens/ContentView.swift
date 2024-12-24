@@ -12,6 +12,9 @@ struct ContentView: View {
     @State private var isAnimation:Bool = false
     @State private var imageScale:CGFloat = 1
     @State private var imageOffset: CGSize = .zero
+    @State private var isDrawenOpened: Bool = false
+    
+    @State private var   drawerIcon: String = "left"
    
     //MARK: FCNCTIONS
     func resetImageSate () {
@@ -139,21 +142,33 @@ struct ContentView: View {
             //MARK: USER DRAWER
             .overlay(
                 HStack {
-                    Image(systemName: "chevron.compact.left")
+                    Image(systemName: "chevron.compact.\(drawerIcon)")
                         .resizable()
                         .scaledToFit()
                         .frame(height: 40)
                         .foregroundColor(.secondary)
                         .padding(8)
+                        .onTapGesture(count: 1, perform: {
+                            withAnimation(.linear){
+                                isDrawenOpened.toggle()
+                                if drawerIcon == "left"{
+                                    drawerIcon = "right"
+                                }else {
+                                    drawerIcon = "left"
+                                }
+                            }
+                        })
                     Spacer()
                 }//:: DRAWER
                     .padding(EdgeInsets(top: 16, leading: 8, bottom:16, trailing: 8))
                 
                     .background(.ultraThinMaterial)
                     .cornerRadius(10)
-                    .frame(width: 240)
+                    .frame(width: 260)
                     .padding(.top , UIScreen.main.bounds.height/12)
                     .opacity(isAnimation ? 1 : 0)
+                    .offset(x: isDrawenOpened ? 20 : 215)
+            
                 ,alignment: .topTrailing
               
                     
