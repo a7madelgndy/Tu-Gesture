@@ -8,10 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    //MARK: PROPERTy
+    //MARK: PROPERTY
     @State private var isAnimation:Bool = false
-    @State private var scaleImage:CGFloat = 1
-    //MARK: FCNCtion
+    @State private var imageScale:CGFloat = 1
+    @State private var imageOffset: CGSize = .zero
+   
+    //MARK: FCNCTIONS
+    func resetImageSate () {
+        withAnimation(.spring()) {
+            imageScale = 1
+            imageOffset = .zero
+        }
+    }
     //MARK: CONTENT
     var body: some View {
 
@@ -25,19 +33,32 @@ struct ContentView: View {
                     .opacity(isAnimation ? 1 : 0)
                     .blur(radius: isAnimation ? 0 : 3)
                     .animation(.linear(duration: 1), value: isAnimation)
-                    .scaleEffect(scaleImage)
+                    .offset(imageOffset)
+                    .scaleEffect(imageScale)
+                    //MARK: Double Gesture
                     .onTapGesture(count: 2, perform: {
-                        if scaleImage == 1 {
+                        if imageScale == 1 {
                             withAnimation(.spring()) {
-                                scaleImage = 2
+                                imageScale = 2
                             }
                         }else {
-                            withAnimation(.spring()) {
-                                scaleImage = 1
+                            resetImageSate ()
+                        }
+                    })//: GESTURE
+                //MARK: Drag Gesture
+                    .gesture(
+                        DragGesture()
+                            .onChanged{ Value in
+                                withAnimation(.linear(duration: 1)) {
+                                    imageOffset = Value.translation
+                                }
                             }
-                        }//: GESTURE
-                    })
-                
+                            .onEnded{ _  in
+                                if imageScale <= 1{
+                                    resetImageSate ()
+                                }
+                            }
+                )
                  
             }//: ZSTACK
             .navigationTitle("Zoom in ")
