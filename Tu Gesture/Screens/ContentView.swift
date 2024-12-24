@@ -25,7 +25,7 @@ struct ContentView: View {
 
         NavigationView {
             ZStack {
-                Color.clear
+                Color.blue
                 
                 Image("magazine-front-cover")
                     .resizable()
@@ -136,6 +136,29 @@ struct ContentView: View {
                 
                     ,alignment: .bottom
                     )
+            //MARK: USER DRAWER
+            .overlay(
+                HStack {
+                    Image(systemName: "chevron.compact.left")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 40)
+                        .foregroundColor(.secondary)
+                        .padding(8)
+                    Spacer()
+                }//:: DRAWER
+                    .padding(EdgeInsets(top: 16, leading: 8, bottom:16, trailing: 8))
+                
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(10)
+                    .frame(width: 240)
+                    .padding(.top , UIScreen.main.bounds.height/12)
+                    .opacity(isAnimation ? 1 : 0)
+                ,alignment: .topTrailing
+              
+                    
+            )
+            
              
         }//:NAGIGATON
         .navigationViewStyle(.stack)
