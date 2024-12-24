@@ -47,8 +47,8 @@ struct ContentView: View {
                             resetImageSate ()
                         }
                     })//: GESTURE
-                //MARK: Drag Gesture
-                    .gesture(
+                    //MARK: Drag Gesture
+                     .gesture(
                         DragGesture()
                             .onChanged{ Value in
                                 withAnimation(.linear(duration: 1)) {
@@ -61,6 +61,24 @@ struct ContentView: View {
                                 }
                             }
                 )
+                //MARK: Magnification Gesture
+                     .gesture(
+                        MagnificationGesture()
+                            .onChanged{value in
+                                if imageScale >= 1 && imageScale <= 5 {
+                                    imageScale = value
+                                }else if imageScale>5{
+                                    imageScale = 5
+                                }
+                            }
+                            .onEnded{ _ in
+                                if imageScale > 5 {
+                                    imageScale = 5
+                                } else if imageScale <= 1 {
+                                    resetImageSate ()
+                                }
+                            }
+                     )
                  
             }//: ZSTACK
             .navigationTitle("Zoom in ")
@@ -102,6 +120,9 @@ struct ContentView: View {
                         withAnimation(.spring()) {
                             if imageScale < 5 {
                                 imageScale += 1
+                                if imageScale > 5 {
+                                    imageScale = 5
+                                }
                             }
                         }
                     }label: {
