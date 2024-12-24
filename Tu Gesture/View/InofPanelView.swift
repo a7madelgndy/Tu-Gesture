@@ -10,7 +10,8 @@ import SwiftUI
 struct InofPanelView: View {
     var scale: CGFloat
     var offset : CGSize
-    
+    //MARK: FUNCTIONS
+
     @State private var isInofPanelVisisbel : Bool = false
     var body: some View {
         //MARK - HOTSPOT
@@ -21,7 +22,7 @@ struct InofPanelView: View {
                 .frame(width: 30 , height: 30)
                 .onLongPressGesture(minimumDuration: 1) {
                     withAnimation(.easeIn){
-                        isInofPanelVisisbel = true
+                        isInofPanelVisisbel.toggle()
                     }
                 }
             Spacer()
